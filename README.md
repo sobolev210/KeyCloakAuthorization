@@ -4,7 +4,7 @@ Specify keycloak server url, client id and realm name in settings.py file.
 
 Then run the following commands
 ```
-cd keycloak_authorization/server
+cd server
 pip install -r requirements.txt
 uvicorn src.main:app --reload
 ```
