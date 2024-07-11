@@ -3,6 +3,7 @@ from typing import Annotated
 import jwcrypto
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from keycloak.exceptions import KeycloakConnectionError
 
 from src import keycloak_client
 
@@ -22,4 +23,6 @@ def get_user_id_from_token(
     except jwcrypto.common.JWException as e:
         print("Unexpected error when validating token: ", e)
         raise HTTPException(status_code=401, detail="Token did not pass validation")
+    except KeycloakConnectionError:
+        raise HTTPException(status_code=500, detail="Authorization service is unavailable")
     return token_info["sub"]
